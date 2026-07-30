@@ -58,7 +58,7 @@ Machine Learning
         |
         v
 Tableau Executive Dashboard
-
+```
 SQL Server Architecture
 
 The database is organized into multiple schemas:
