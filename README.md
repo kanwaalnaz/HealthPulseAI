@@ -57,7 +57,7 @@ Data Validation and EDA
 Machine Learning
         |
         v
-Tableau Executive Dashboardcode README.md
+Tableau Executive Dashboard
 
 SQL Server Architecture
 
@@ -102,12 +102,16 @@ Machine-learning classification
 
 Main Python scripts:
 
+Main Python scripts:
+
+```text
 04_Python/
 ├── 001_database_connection.py
 ├── 002_extract_data.py
 ├── 003_data_validation.py
 ├── 004_exploratory_analysis.py
 └── 005_machine_learning.py
+```
 Data Extracted
 
 The Python pipeline extracted the following datasets:
@@ -178,7 +182,9 @@ Patient Gender Distribution
 
 The dashboard was designed to provide a concise overview of operational, financial, telehealth, and AI performance.
 
-Repository Structure
+## Repository Structure
+
+```text
 HealthPulse-AI/
 ├── 01_Project_Management/
 ├── 02_Documentation/
@@ -188,6 +194,7 @@ HealthPulse-AI/
 ├── environment.yml
 ├── requirements.txt
 └── README.md
+```
 How to Run the Project
 1. Create the Python environment
 conda env create -f environment.yml
