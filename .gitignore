@@ -1,0 +1,6 @@
+.vscode/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+04_Python/.env
+*.log
