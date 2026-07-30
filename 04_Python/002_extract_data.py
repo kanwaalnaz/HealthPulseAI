@@ -1,0 +1,86 @@
+from __future__ import annotations
+
+from pathlib import Path
+
+import pandas as pd
+from sqlalchemy import text
+
+from config.database import get_database_engine
+
+
+BASE_DIR = Path(__file__).resolve().parent
+RAW_DATA_DIR = BASE_DIR / "data" / "raw"
+
+
+QUERIES = {
+    "patients": """
+        SELECT TOP 1000 *
+        FROM Clinical.Patient;
+    """,
+    "encounters": """
+        SELECT TOP 1000 *
+        FROM Clinical.Encounter;
+    """,
+   "telehealth_visits": """
+    SELECT TOP 1000 *
+    FROM Telehealth.VirtualVisit;
+    """,
+    "claims": """
+        SELECT TOP 1000 *
+        FROM Insurance.Claim;
+    """,
+    "invoices": """
+        SELECT TOP 1000 *
+        FROM Billing.Invoice;
+    """,
+    "ai_predictions": """
+        SELECT TOP 1000 *
+        FROM AI.Prediction;
+    """,
+}
+
+
+def extract_data() -> None:
+    """Extract healthcare data from SQL Server and save it as CSV files."""
+
+    RAW_DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+    engine = get_database_engine()
+
+    print("=" * 70)
+    print("Starting HealthPulseAI data extraction")
+    print("=" * 70)
+
+    with engine.connect() as connection:
+        for dataset_name, query in QUERIES.items():
+            try:
+                dataframe = pd.read_sql(
+                    text(query),
+                    connection,
+                )
+
+                output_path = RAW_DATA_DIR / f"{dataset_name}.csv"
+
+                dataframe.to_csv(
+                    output_path,
+                    index=False,
+                )
+
+                print(
+                    f"{dataset_name:<20} "
+                    f"Rows: {len(dataframe):<8} "
+                    f"Columns: {len(dataframe.columns):<5} "
+                    f"Saved: {output_path.name}"
+                )
+
+            except Exception as error:
+                print(f"{dataset_name:<20} FAILED")
+                print(error)
+
+    print("=" * 70)
+    print("Data extraction completed")
+    print("=" * 70)
+
+
+if __name__ == "__main__":
+    extract_data()
